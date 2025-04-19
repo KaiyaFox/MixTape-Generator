@@ -1,7 +1,7 @@
 import { useState } from "react";
 
 interface MoodState {
-    mood: "Happy" | "Sad" | "Angry" | "Neutral" | "Energetic" | "Calm" | "Melancholic" | "Nostalgic";
+    mood: "Happy" | "Sad" | "Angry" | "Neutral" | "Energetic" | "Calm" | "Melancholic" | "Nostalgic" | "Romantic" | "Mysterious" | "Adventurous" | "Reflective";
     movement: string;
     description: string;
     color: string;
@@ -16,12 +16,16 @@ const moodStates: MoodState[] = [
     { mood: "Calm", movement: "flow", color: "#4682B4", description: "A relaxing and chill vibe" },
     { mood: "Melancholic", movement: "drift", color: "#6A5ACD", description: "A deep and reflective mood." },
     { mood: "Nostalgic", movement: "glide", color: "#FF69B4", description: "A wistful and reflective mood." },
+    { mood: "Romantic", movement: "sway", color: "#FF1493", description: "A dreamy and romantic mood." },
+    { mood: "Mysterious", movement: "float", color: "#8A2BE2", description: "An enigmatic and intriguing mood." },
+    { mood: "Adventurous", movement: "soar", color: "#FFD700", description: "An adventurous and daring mood." },
+    { mood: "Reflective", movement: "drift", color: "#4682B4", description: "A thoughtful and introspective mood." },
 ];
 
 export default function MoodSelector() {
     const [selectedMood, setSelectedMood] = useState<MoodState | null>(null);
     const [description, setDescription] = useState<string>("");
-    const [genre, setGenre] = useState<string>([""]);
+    const [genre, setGenre] = useState<[]>([]);
 
     return (
         <>
