@@ -17,7 +17,7 @@ const moodStates: MoodState[] = [
     { mood: "Nostalgic", movement: "glide", color: "#FF69B4" },
 ];
 
-export default function FoxTail() {
+export default function MoodSelector() {
     const [selectedMood, setSelectedMood] = useState<MoodState | null>(null);
 
     return (

@@ -1,6 +1,6 @@
 'use client';
 
-import FoxTail from "@/app/FoxTail";
+import MoodSelector from "@/app/MoodSelector";
 import OpenAI from "openai";
 import { useState } from 'react';
 
@@ -18,6 +18,7 @@ export default function Home() {
     const [mixtapeTitle, setMixtapeTitle] = useState<string | null>(null);
     const [copied, setCopied] = useState(false);
     const [loading, setLoading] = useState(false);
+    const [userMood, setUserMood] = useState("Nutural");
 
     async function generateMixtapeTitle() {
         setLoading(true);
@@ -25,7 +26,7 @@ export default function Home() {
             const completion = await openai.chat.completions.create({
                 messages: [{
                     role: 'system',
-                    content: `You are a mixtape title generator. You generate a title based on the mood: ${userMood}. A description of: ${userDescription}, and a musical style of ${userGenre}. Only generate the title. Do not include quotes or any text formatting.`,
+                    content: `You are a mixtape title generator. You generate a title based on a ${userMood} mood. A description of: ${userDescription}, and a musical style of ${userGenre}. Only generate the title. Do not include quotes or any text formatting.`,
                 }],
                 model: "deepseek-chat",
                 max_tokens: 15,
@@ -52,8 +53,8 @@ export default function Home() {
     return (
         <main className="flex flex-col items-center justify-center min-h-screen p-8 bg-gradient-to-br from-purple-900 via-pink-600 to-yellow-400 text-white text-center">
             <h1 className="text-5xl font-extrabold mb-6">🎶 Mixtape Title Generator</h1>
-
-            <FoxTail />
+            {/*Lift state up from mood*/}
+            <MoodSelector mood={userMood} onMoodChange={setUserMood} />
 
             <button
                 onClick={generateMixtapeTitle}
