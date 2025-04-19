@@ -3,38 +3,43 @@ import { useState } from "react";
 interface MoodState {
     mood: "Happy" | "Sad" | "Angry" | "Neutral" | "Energetic" | "Calm" | "Melancholic" | "Nostalgic";
     movement: string;
+    description: string;
     color: string;
 }
 
 const moodStates: MoodState[] = [
-    { mood: "Happy", movement: "bounce", color: "#FFD700" },
-    { mood: "Sad", movement: "sway", color: "#1E90FF" },
-    { mood: "Angry", movement: "shake", color: "#FF4500" },
-    { mood: "Neutral", movement: "still", color: "#808080" },
-    { mood: "Energetic", movement: "jump", color: "#32CD32" },
-    { mood: "Calm", movement: "flow", color: "#4682B4" },
-    { mood: "Melancholic", movement: "drift", color: "#6A5ACD" },
-    { mood: "Nostalgic", movement: "glide", color: "#FF69B4" },
+    { mood: "Happy", movement: "bounce", color: "#FFD700", description: "A bright and cheerful mood." },
+    { mood: "Sad", movement: "sway", color: "#1E90FF", description: "A blue and melancholic mood." },
+    { mood: "Angry", movement: "shake", color: "#FF4500", description: "A fiery and intense mood." },
+    { mood: "Neutral", movement: "still", color: "#808080", description: "A calm and balanced mood." },
+    { mood: "Energetic", movement: "jump", color: "#32CD32", description: "A lively and upbeat mood." },
+    { mood: "Calm", movement: "flow", color: "#4682B4", description: "A relaxing and chill vibe" },
+    { mood: "Melancholic", movement: "drift", color: "#6A5ACD", description: "A deep and reflective mood." },
+    { mood: "Nostalgic", movement: "glide", color: "#FF69B4", description: "A wistful and reflective mood." },
 ];
 
 export default function MoodSelector() {
     const [selectedMood, setSelectedMood] = useState<MoodState | null>(null);
+    const [description, setDescription] = useState<string>("");
+    const [genre, setGenre] = useState<string>([""]);
 
     return (
+        <>
         <div className="p-6 max-w-md mx-auto bg-gray-800 text-white rounded shadow">
-            <h2 className="text-2xl font-bold mb-4 text-center">🦊 Fox Tail Mood Selector</h2>
+            <h2 className="text-2xl font-bold mb-2 text-center">🦊 Mood Selector</h2>
+            <p className="mb-2">Choose a mood for your playlist</p>
 
-            <ul className="space-y-2">
+            <ul className="grid grid-cols-3 gap-4">
                 {moodStates.map((state) => (
                     <li
                         key={state.mood}
                         onClick={() => setSelectedMood(state)}
-                        className={`p-3 rounded cursor-pointer transition-all border-2 ${
+                        className={`p-4 rounded cursor-pointer transition-all border-4 ${
                             selectedMood?.mood === state.mood
                                 ? "border-white bg-opacity-20 bg-white"
                                 : "border-transparent hover:border-white"
                         }`}
-                        style={{ backgroundColor: state.color + "30" }} // semi-transparent bg
+                        style={{ backgroundColor: state.color + "50" }}
                     >
                         <strong>{state.mood}</strong>
                     </li>
@@ -43,14 +48,29 @@ export default function MoodSelector() {
 
             {selectedMood && (
                 <div className="mt-6 p-4 border rounded bg-gray-700">
-                    <h3 className="text-lg font-semibold mb-2">Current Mood: {selectedMood.mood}</h3>
-                    <p><strong>Tail Movement:</strong> {selectedMood.movement}</p>
-                    <p>
-                        <strong>Tail Color:</strong>{" "}
-                        <span style={{ color: selectedMood.color }}>{selectedMood.color}</span>
-                    </p>
+                    <h3
+                        className="text-4xl font-semibold mb-2"
+                        style={{ color: selectedMood.color }}
+                    >
+                        {selectedMood.mood}
+                    </h3>
+                    <p>{selectedMood.description}</p>
                 </div>
             )}
+            <div className="mt-4">
+                <label htmlFor="description" className="block mb-2">
+                    Description:
+                </label>
+                <textarea
+                    id="description"
+                    value={description}
+                    onChange={(e) => setDescription(e.target.value)}
+                    className="w-full p-2 rounded bg-gray-700 text-white"
+                    rows={3}
+                    placeholder="What do you want this playlist to be about?"
+                />
+            </div>
         </div>
+            </>
     );
 }

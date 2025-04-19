@@ -1,45 +1,33 @@
 'use client';
 
 import MoodSelector from "@/app/MoodSelector";
-import OpenAI from "openai";
 import { useState } from 'react';
 
-const openai = new OpenAI({
-    apiKey: process.env.NEXT_PUBLIC_DEEPSEEK_API_KEY,
-    baseURL: process.env.NEXT_PUBLIC_DEEPSEEK_URL,
-    dangerouslyAllowBrowser: true,
-});
 
-const userMood = "Horny";
-const userGenre = "Trance";
-const userDescription = "Knowing i was queer";
 
 export default function Home() {
     const [mixtapeTitle, setMixtapeTitle] = useState<string | null>(null);
     const [copied, setCopied] = useState(false);
     const [loading, setLoading] = useState(false);
-    const [userMood, setUserMood] = useState("Nutural");
+    const [userMood, setUserMood] = useState("");
+    const [userGenre, setUserGenre] = useState("");
+    const [userDescription, setUserDescription] = useState("");
 
     async function generateMixtapeTitle() {
         setLoading(true);
-        try {
-            const completion = await openai.chat.completions.create({
-                messages: [{
-                    role: 'system',
-                    content: `You are a mixtape title generator. You generate a title based on a ${userMood} mood. A description of: ${userDescription}, and a musical style of ${userGenre}. Only generate the title. Do not include quotes or any text formatting.`,
-                }],
-                model: "deepseek-chat",
-                max_tokens: 15,
-                temperature: 1.5,
-            });
+        const res = await fetch('/api/generate', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                mood: userMood,
+                genre: userGenre,
+                description: userDescription, // Prompt like.
+            }),
+        });
 
-            const title = completion.choices[0].message.content?.trim();
-            setMixtapeTitle(title || "Untitled Mixtape");
-        } catch (error) {
-            console.error("Error generating mixtape title:", error);
-        } finally {
-            setLoading(false); // Re-enable the button
-        }
+        const data = await res.json();
+        console.log('Mixtape Title:', data.title);
+
     }
 
     const handleCopy = () => {
@@ -52,7 +40,7 @@ export default function Home() {
 
     return (
         <main className="flex flex-col items-center justify-center min-h-screen p-8 bg-gradient-to-br from-purple-900 via-pink-600 to-yellow-400 text-white text-center">
-            <h1 className="text-5xl font-extrabold mb-6">🎶 Mixtape Title Generator</h1>
+            <h1 className="text-6xl font-extrabold mb-6">🎶 Playlist Name Generator 🎶</h1>
             {/*Lift state up from mood*/}
             <MoodSelector mood={userMood} onMoodChange={setUserMood} />
 
