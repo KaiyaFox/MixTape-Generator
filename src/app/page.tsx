@@ -26,7 +26,7 @@ export default function Home() {
         });
 
         const data = await res.json();
-        setMixtapeTitle(data.mixtapeTitle);
+        setMixtapeTitle(data.title);
         setLoading(false);
         console.log('Mixtape Title:', data.title);
 

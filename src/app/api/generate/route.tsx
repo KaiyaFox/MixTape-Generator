@@ -12,6 +12,7 @@ export async function POST(req: NextRequest) {
         const { mood, genre, description } = await req.json();
 
         if (!mood || !genre || !description) {
+            console.log(mood, genre, description);
             return NextResponse.json({ error: "Missing parameters"}, { status: 400});
         }
 
