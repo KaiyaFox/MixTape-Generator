@@ -53,11 +53,11 @@ export default function Home() {
             <button
                 onClick={generateMixtapeTitle}
                 disabled={loading} // Disable the button when loading
-                className={`bg-white text-purple-800 text-lg px-6 py-3 rounded-full shadow-lg transition mb-6 ${
+                className={`bg-orange-200 text-purple-800 text-2xl px-9 py-6 shadow-2xl transition mb-6 mt-6 cursor-pointer ${
                     loading ? "opacity-50 cursor-not-allowed" : "hover:bg-pink-100"
                 }`}
             >
-                {loading ? "Generating..." : "🔀 Generate Title"}
+                {loading ? "Generating..." : "🔀 Generate Mixtape Title"}
             </button>
 
             {mixtapeTitle && (

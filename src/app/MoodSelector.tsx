@@ -4,22 +4,23 @@ interface MoodState {
     mood: "Happy" | "Sad" | "Angry" | "Neutral" | "Energetic" | "Calm" | "Melancholic" | "Nostalgic" | "Romantic" | "Mysterious" | "Adventurous" | "Reflective";
     movement: string;
     description: string;
+    emoji: string;
     color: string;
 }
 
 const moodStates: MoodState[] = [
-    { mood: "Happy", movement: "bounce", color: "#FFD700", description: "A bright and cheerful mood." },
-    { mood: "Sad", movement: "sway", color: "#1E90FF", description: "A blue and melancholic mood." },
-    { mood: "Angry", movement: "shake", color: "#FF4500", description: "A fiery and intense mood." },
-    { mood: "Neutral", movement: "still", color: "#808080", description: "A calm and balanced mood." },
-    { mood: "Energetic", movement: "jump", color: "#32CD32", description: "A lively and upbeat mood." },
-    { mood: "Calm", movement: "flow", color: "#4682B4", description: "A relaxing and chill vibe" },
-    { mood: "Melancholic", movement: "drift", color: "#6A5ACD", description: "A deep and reflective mood." },
-    { mood: "Nostalgic", movement: "glide", color: "#FF69B4", description: "A wistful and reflective mood." },
-    { mood: "Romantic", movement: "sway", color: "#FF1493", description: "A dreamy and romantic mood." },
-    { mood: "Mysterious", movement: "float", color: "#8A2BE2", description: "An enigmatic and intriguing mood." },
-    { mood: "Adventurous", movement: "soar", color: "#FFD700", description: "An adventurous and daring mood." },
-    { mood: "Reflective", movement: "drift", color: "#4682B4", description: "A thoughtful and introspective mood." },
+    { mood: "Happy", movement: "bounce", color: "#FFD700", description: "A bright and cheerful mood.", emoji: "😊" },
+    { mood: "Sad", movement: "sway", color: "#1E90FF", description: "A blue and melancholic mood.", emoji: "😢" },
+    { mood: "Angry", movement: "shake", color: "#FF4500", description: "A fiery and intense mood.", emoji: "😠" },
+    { mood: "Neutral", movement: "still", color: "#808080", description: "A calm and balanced mood.", emoji: "😐" },
+    { mood: "Energetic", movement: "jump", color: "#32CD32", description: "A lively and upbeat mood.", emoji: "😃" },
+    { mood: "Calm", movement: "flow", color: "#4682B4", description: "A relaxing and chill vibe", emoji: "😌" },
+    { mood: "Melancholic", movement: "drift", color: "#6A5ACD", description: "A deep and reflective mood.", emoji: "😔" },
+    { mood: "Nostalgic", movement: "glide", color: "#FF69B4", description: "A wistful and reflective mood.", emoji: "😌" },
+    { mood: "Romantic", movement: "sway", color: "#FF1493", description: "A dreamy and romantic mood.", emoji: "😍" },
+    { mood: "Mysterious", movement: "float", color: "#8A2BE2", description: "An enigmatic and intriguing mood.", emoji: "🕵️‍♂️" },
+    { mood: "Adventurous", movement: "soar", color: "#FFD700", description: "An adventurous and daring mood.", emoji: "🏞️" },
+    { mood: "Reflective", movement: "drift", color: "#4682B4", description: "A thoughtful and introspective mood.", emoji: "🤔" },
 ];
 
 interface MoodSelectorProps {
@@ -46,10 +47,9 @@ export default function MoodSelector({onMoodChange, onDescriptionChange, onGenre
     return (
         <>
         <div className="p-6 max-w-md mx-auto bg-gray-800 text-white rounded shadow">
-            <h2 className="text-2xl font-bold mb-2 text-center">🦊 Mood Selector</h2>
-            <p className="mb-2">Choose a mood for your playlist</p>
+            <h2 className="text-2xl font-bold mb-2 text-center">1. Select mood</h2>
 
-            <ul className="grid grid-cols-3 gap-4">
+            <ul className="grid grid-cols-2 sm:grid-cols-3 gap-4">
                 {moodStates.map((state) => (
                     <li
                         key={state.mood}
@@ -62,6 +62,8 @@ export default function MoodSelector({onMoodChange, onDescriptionChange, onGenre
                         style={{ backgroundColor: state.color + "50" }}
                     >
                         <strong>{state.mood}</strong>
+                        <br/>
+                        {state.emoji}
                     </li>
                 ))}
             </ul>
@@ -79,7 +81,7 @@ export default function MoodSelector({onMoodChange, onDescriptionChange, onGenre
             )}
             <div className="mt-4">
                 <label htmlFor="description" className="block mb-2">
-                    Description:
+                    <h2 className="text-2xl font-bold mb-2 text-center">2. Describe</h2>
                 </label>
                 <textarea
                     id="description"
@@ -92,7 +94,7 @@ export default function MoodSelector({onMoodChange, onDescriptionChange, onGenre
             </div>
             <div className="mt-4">
                 <label htmlFor="genre" className="block mb-2">
-                    Genre:
+                    <h2 className="text-2xl font-bold mb-2 text-center">3. Type of genre</h2>
                 </label>
                 <input
                     id="genre"
