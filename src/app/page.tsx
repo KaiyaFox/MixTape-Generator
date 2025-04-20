@@ -26,6 +26,8 @@ export default function Home() {
         });
 
         const data = await res.json();
+        setMixtapeTitle(data.mixtapeTitle);
+        setLoading(false);
         console.log('Mixtape Title:', data.title);
 
     }
@@ -42,7 +44,11 @@ export default function Home() {
         <main className="flex flex-col items-center justify-center min-h-screen p-8 bg-gradient-to-br from-purple-900 via-pink-600 to-yellow-400 text-white text-center">
             <h1 className="text-6xl font-extrabold mb-6">🎶 Playlist Name Generator 🎶</h1>
             {/*Lift state up from mood*/}
-            <MoodSelector mood={userMood} onMoodChange={setUserMood} />
+            <MoodSelector
+                onMoodChange={setUserMood}
+                onDescriptionChange={setUserDescription}
+                onGenreChange={setUserGenre}
+            />
 
             <button
                 onClick={generateMixtapeTitle}

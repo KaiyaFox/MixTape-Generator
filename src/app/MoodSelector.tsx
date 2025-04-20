@@ -22,10 +22,26 @@ const moodStates: MoodState[] = [
     { mood: "Reflective", movement: "drift", color: "#4682B4", description: "A thoughtful and introspective mood." },
 ];
 
-export default function MoodSelector() {
-    const [selectedMood, setSelectedMood] = useState<MoodState | null>(null);
+interface MoodSelectorProps {
+    onMoodChange: (mood: string) => void; // Callback to lift state up
+    onDescriptionChange: (description: string) => void; // Callback to lift state up
+    onGenreChange: (genre: string) => void; // Callback to lift state up
+}
+
+export default function MoodSelector({onMoodChange, onDescriptionChange, onGenreChange}: MoodSelectorProps) {
+    const [mood, setMood] = useState<MoodState | null>(null);
     const [description, setDescription] = useState<string>("");
-    const [genre, setGenre] = useState<[]>([]);
+    const [genre, setGenre] = useState<string>("");
+
+
+    const handleMoodSelect = (state: MoodState) => {
+        setMood(state);
+        onMoodChange(state.mood); // Lift state up
+        onDescriptionChange(description); // Lift state up
+        onGenreChange(genre); // Lift state up
+    }
+
+    console.log(mood);
 
     return (
         <>
@@ -37,9 +53,9 @@ export default function MoodSelector() {
                 {moodStates.map((state) => (
                     <li
                         key={state.mood}
-                        onClick={() => setSelectedMood(state)}
+                        onClick={() => handleMoodSelect(state)}
                         className={`p-4 rounded cursor-pointer transition-all border-4 ${
-                            selectedMood?.mood === state.mood
+                            mood?.mood === state.mood
                                 ? "border-white bg-opacity-20 bg-white"
                                 : "border-transparent hover:border-white"
                         }`}
@@ -50,15 +66,15 @@ export default function MoodSelector() {
                 ))}
             </ul>
 
-            {selectedMood && (
+            {mood && (
                 <div className="mt-6 p-4 border rounded bg-gray-700">
                     <h3
                         className="text-4xl font-semibold mb-2"
-                        style={{ color: selectedMood.color }}
+                        style={{ color: mood.color }}
                     >
-                        {selectedMood.mood}
+                        {mood.mood}
                     </h3>
-                    <p>{selectedMood.description}</p>
+                    <p>{mood.description}</p>
                 </div>
             )}
             <div className="mt-4">
@@ -72,6 +88,18 @@ export default function MoodSelector() {
                     className="w-full p-2 rounded bg-gray-700 text-white"
                     rows={3}
                     placeholder="What do you want this playlist to be about?"
+                />
+            </div>
+            <div className="mt-4">
+                <label htmlFor="genre" className="block mb-2">
+                    Genre:
+                </label>
+                <input
+                    id="genre"
+                    value={genre}
+                    onChange={(e) => setGenre(e.target.value)}
+                    className="w-full p-2 rounded bg-gray-700 text-white"
+                    placeholder="Enter genre(s) separated by commas"
                 />
             </div>
         </div>
