@@ -15,6 +15,12 @@ export default function Home() {
     const [wordCount, setWordCount] = useState(3);
 
     async function generateMixtapeTitle() {
+
+        // Validate
+        if (!userMood || !userGenre || !userDescription) {
+            alert("Please Select a mood, genre, and description.");
+            return;
+        }
         setLoading(true);
         const res = await fetch('/api/generate', {
             method: 'POST',
