@@ -12,6 +12,7 @@ export default function Home() {
     const [userMood, setUserMood] = useState("");
     const [userGenre, setUserGenre] = useState("");
     const [userDescription, setUserDescription] = useState("");
+    const [wordCount, setWordCount] = useState(3);
 
     async function generateMixtapeTitle() {
         setLoading(true);
@@ -22,6 +23,7 @@ export default function Home() {
                 mood: userMood,
                 genre: userGenre,
                 description: userDescription, // Prompt like.
+                wordCount: wordCount
             }),
         });
 
@@ -40,6 +42,8 @@ export default function Home() {
         });
     };
 
+
+
     return (
         <main className="flex flex-col items-center justify-center min-h-screen p-8 bg-gradient-to-br from-purple-900 via-pink-600 to-yellow-400 text-white text-center">
             <h1 className="text-6xl font-extrabold mb-6">🎶 Playlist Name Generator 🎶</h1>
@@ -48,12 +52,13 @@ export default function Home() {
                 onMoodChange={setUserMood}
                 onDescriptionChange={setUserDescription}
                 onGenreChange={setUserGenre}
+                onWordCountChange={setWordCount} // Pass the word count to the parent
             />
 
             <button
                 onClick={generateMixtapeTitle}
                 disabled={loading} // Disable the button when loading
-                className={`bg-orange-200 text-purple-800 text-2xl px-9 py-6 shadow-2xl transition mb-6 mt-6 cursor-pointer ${
+                className={`bg-orange-200 text-purple-800 text-2xl px-9 py-6 shadow-2xl transition mb-6 mt-6 cursor-po ${
                     loading ? "opacity-50 cursor-not-allowed" : "hover:bg-pink-100"
                 }`}
             >

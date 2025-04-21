@@ -9,8 +9,8 @@ const openai = new OpenAI({
 
 export async function POST(req: NextRequest) {
     try {
-        const { mood, genre, description } = await req.json();
-        console.log(mood, genre, description);
+        const { mood, genre, description, wordCount } = await req.json();
+        console.log(mood, genre, description, wordCount);
 
 
         if (!mood || !genre || !description) {
@@ -24,15 +24,15 @@ export async function POST(req: NextRequest) {
                 {
                     role: 'system',
                     content:
-                        `You are a music branding expert. Generate a **unique, bold, and intriguing playlist title** based on the following:
+                        `Generate a **unique, bold, and intriguing playlist title** based on the following:
                         - Mood: ${mood}
                         - Description: ${description}
                         - Genre: ${genre}
-                        Use figurative language, unexpected word pairings, or cultural references. Keep it under 6 words. Do **not** include quotes or extra formatting. Output only the title.`
+                        Use figurative language, cultural references. Make it ${wordCount} words. Do **not** include quotes or extra formatting. Output only the title.`
                 }],
             model: "deepseek-chat",
-            max_tokens: 20,
-            temperature: 2.0,
+            max_tokens: 100,
+            temperature: 1.5,
         });
 
         const title = completion.choices[0].message.content?.trim();

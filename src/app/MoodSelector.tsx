@@ -25,30 +25,52 @@ const moodStates: MoodState[] = [
 
 interface MoodSelectorProps {
     onMoodChange: (mood: string) => void; // Callback to lift state up
-    onDescriptionChange: (description: string) => void; // Callback to lift state up
+    onDescriptionChange: (userDescription: string) => void; // Callback to lift state up
     onGenreChange: (genre: string) => void; // Callback to lift state up
+    onWordCountChange: (wordCount: number) => void; // Callback to lift state up
 }
 
-export default function MoodSelector({onMoodChange, onDescriptionChange, onGenreChange}: MoodSelectorProps) {
+export default function MoodSelector({ onMoodChange, onDescriptionChange, onGenreChange, onWordCountChange }: MoodSelectorProps) {
     const [mood, setMood] = useState<MoodState | null>(null);
-    const [description, setDescription] = useState<string>("");
+    const [userDescription, setUserDescription] = useState<string>("");
     const [genre, setGenre] = useState<string>("");
-
+    const [wordCount, setWordCount] = useState<number>(3);
 
     const handleMoodSelect = (state: MoodState) => {
         setMood(state);
-        onMoodChange(state.mood); // Lift state up
-        onDescriptionChange(description); // Lift state up
-        onGenreChange(genre); // Lift state up
+        onMoodChange(state.mood); // Pass the selected mood to the parent
+    };
+
+    const handleDescriptionChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+        const value = e.target.value;
+        setUserDescription(value);
+        onDescriptionChange(value); // Pass the description to the parent
+    };
+
+    const handleGenreChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const value = e.target.value;
+        setGenre(value);
+        onGenreChange(value); // Pass the genre to the parent
+    };
+
+    const handleWordCountChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const value = Number(e.target.value);
+        setWordCount(value);
+        onWordCountChange(value); // Pass the word count to the parent
+    };
+
+    const payload = {
+        mood: mood?.mood,
+        description: userDescription,
+        genre: genre,
+        wordCount: wordCount,
     }
 
-    console.log(mood);
+    console.log(payload);
 
     return (
-        <>
         <div className="p-6 max-w-md mx-auto bg-gray-800 text-white rounded shadow">
             <h2 className="text-2xl font-bold mb-2 text-center">1. Select mood</h2>
-
             <ul className="grid grid-cols-2 sm:grid-cols-3 gap-4">
                 {moodStates.map((state) => (
                     <li
@@ -62,7 +84,7 @@ export default function MoodSelector({onMoodChange, onDescriptionChange, onGenre
                         style={{ backgroundColor: state.color + "50" }}
                     >
                         <strong>{state.mood}</strong>
-                        <br/>
+                        <br />
                         {state.emoji}
                     </li>
                 ))}
@@ -79,19 +101,21 @@ export default function MoodSelector({onMoodChange, onDescriptionChange, onGenre
                     <p>{mood.description}</p>
                 </div>
             )}
+
             <div className="mt-4">
                 <label htmlFor="description" className="block mb-2">
                     <h2 className="text-2xl font-bold mb-2 text-center">2. Describe</h2>
                 </label>
                 <textarea
                     id="description"
-                    value={description}
-                    onChange={(e) => setDescription(e.target.value)}
+                    value={userDescription}
+                    onChange={handleDescriptionChange}
                     className="w-full p-2 rounded bg-gray-700 text-white"
                     rows={3}
                     placeholder="What do you want this playlist to be about?"
                 />
             </div>
+
             <div className="mt-4">
                 <label htmlFor="genre" className="block mb-2">
                     <h2 className="text-2xl font-bold mb-2 text-center">3. Type of genre</h2>
@@ -99,12 +123,26 @@ export default function MoodSelector({onMoodChange, onDescriptionChange, onGenre
                 <input
                     id="genre"
                     value={genre}
-                    onChange={(e) => setGenre(e.target.value)}
+                    onChange={handleGenreChange}
                     className="w-full p-2 rounded bg-gray-700 text-white"
                     placeholder="Enter genre(s) separated by commas"
                 />
             </div>
+        {/*    Word count selector*/}
+            <div className="mt-4">
+                <label htmlFor="wordCount" className="block mb-2">
+                    <h2 className="text-2xl font-bold mb-2 text-center">4. Word count</h2>
+                </label>
+                <input
+                    id="wordCount"
+                    type="number"
+                    min={3}
+                    max={10}
+                    defaultValue={3}
+                    onChange={handleWordCountChange}
+                    className="w-full p-2 rounded bg-gray-700 text-white"
+                />
+            </div>
         </div>
-            </>
     );
 }
