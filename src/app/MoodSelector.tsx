@@ -54,7 +54,7 @@ export default function MoodSelector({onMoodChange, onDescriptionChange, onGenre
                     <li
                         key={state.mood}
                         onClick={() => handleMoodSelect(state)}
-                        className={`p-4 rounded cursor-pointer transition-all border-4 ${
+                        className={`p-4 rounded cursor-pointer transition-all border-1 ${
                             mood?.mood === state.mood
                                 ? "border-white bg-opacity-20 bg-white"
                                 : "border-transparent hover:border-white"
